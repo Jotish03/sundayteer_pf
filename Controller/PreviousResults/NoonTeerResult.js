@@ -1,20 +1,18 @@
     const NoonTeerResult = require('../../Model/PreviousResult/NoonTeerResult')
-    const getNoonTeerResult = async (req, res) => {
-
-        try {
-
-            const noonteerresult = await NoonTeerResult.find()
-            res.render("PreviewsResult/NoonTeerResult/ShowTeerResult", {
+    const getNoonTeerResult =  (req, res) => {
+        NoonTeerResult.find({}).sort([['date', -1]]).exec(function(err, noonteerresult){ 
+            if(err){
+                req.flash(
+                            'error_msg',
+                            err.message
+                        );
+                        res.redirect("/")
+            }
+               res.render("PreviewsResult/NoonTeerResult/ShowTeerResult", {
                 noonteerresult
             })
-        } catch (error) {
-           req.flash(
-               'error_msg',
-               error.message
-           );
-           res.redirect("/")
-            
-        }
+        });
+    
     }
 
     const addNoonTeerResult = async (req, res) => {

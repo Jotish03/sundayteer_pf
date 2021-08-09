@@ -1,21 +1,33 @@
 const EveningTeerResult = require('../../Model/PreviousResult/EveningTeerResult')
-const getEveningTeerResult = async (req, res) => {
-
-    try {
-
-        const eveningteerresult = await EveningTeerResult.find()
-        res.render("PreviewsResult/EveningTeerResult/ShowTeerResult", {
+const getEveningTeerResult =  (req, res) => {
+    EveningTeerResult.find({}).sort([['date', -1]]).exec(function(err, eveningteerresult){ 
+        if(err){
+            req.flash(
+                        'error_msg',
+                        err.message
+                    );
+                    res.redirect("/")
+        }
+           res.render("PreviewsResult/EveningTeerResult/ShowTeerResult", {
             eveningteerresult
         })
-    } catch (error) {
+    });
+
+    // try {
+
+    //     const eveningteerresult = await EveningTeerResult.find()
+    //     res.render("PreviewsResult/EveningTeerResult/ShowTeerResult", {
+    //         eveningteerresult
+    //     })
+    // } catch (error) {
        
-        req.flash(
-            'error_msg',
-            error.message
-        );
-        res.redirect("/")
+    //     req.flash(
+    //         'error_msg',
+    //         error.message
+    //     );
+    //     res.redirect("/")
         
-    }
+    // }
 }
 
 const addEveningTeerResult = async (req, res) => {
